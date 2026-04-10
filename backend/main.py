@@ -31,7 +31,7 @@ handler = TicketModelHandler()
 
 @app.on_event("startup")
 async def startup_event():
-    handler.load_models()
+    print("[SERVER] Backend is ONLINE. AI is set to Lazy-Load on first request.")
 
 # Request/Response Schemas
 class TicketRequest(BaseModel):

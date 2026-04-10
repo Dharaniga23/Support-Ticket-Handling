@@ -13,6 +13,8 @@
 !frontend/**
 !notebooks/**
 !docs/**
+!ml_engine/**
+!scripts/**
 !IEEE_Paper_Submission/**
 
 # ------------------------------------------------------------
