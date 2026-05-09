@@ -6,6 +6,7 @@
     --primary: #0f172a;
     --primary-light: #1e293b;
     --accent: #6366f1;
+    --accent-glow: rgba(99, 102, 241, 0.5);
     /* Indigo */
     --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     --bg-app: #f1f5f9;
@@ -19,48 +20,89 @@
   }
 
   body {
-    @apply bg-slate-100 text-slate-900;
+    @apply bg-slate-50 text-slate-900;
     font-family: 'Inter', -apple-system, sans-serif;
-    background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(168, 85, 247, 0.05) 0, transparent 50%);
+    background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.08) 0, transparent 50%);
+    background-attachment: fixed;
   }
 }
 
 @utility glass {
   background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
 
 @utility glass-dark {
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+@utility glass-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
 }
 
 /* Premium Layout */
 .app-container {
   display: grid;
-  grid-template-columns: 72px 1fr 340px;
+  grid-template-columns: 80px 1fr 340px;
   height: 100vh;
   overflow: hidden;
 }
 
 @media (max-width: 1280px) {
   .app-container {
-    grid-template-columns: 72px 1fr;
+    grid-template-columns: 80px 1fr;
   }
 }
 
 /* Navbar */
 .main-nav {
-  @apply bg-slate-900 flex flex-col items-center py-6 gap-6 shadow-2xl z-50;
+  @apply bg-slate-900 flex flex-col items-center py-6 gap-6 shadow-2xl z-50 border-r border-slate-800 relative;
 }
 
 .nav-item {
-  @apply w-12 h-12 flex items-center justify-center rounded-2xl text-slate-400 transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer;
+  @apply w-12 h-12 flex items-center justify-center rounded-2xl text-slate-400 transition-all duration-300 hover:bg-white/10 hover:text-white cursor-pointer relative;
 }
 
 .nav-item.active {
@@ -69,36 +111,44 @@
 
 /* KPI Cards */
 .kpi-card {
-  @apply glass p-6 rounded-3xl border border-white shadow-xl shadow-slate-200/50 transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl;
+  @apply glass-panel p-6 rounded-[2rem] transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/10 cursor-default;
 }
 
 /* Main Table Styling */
 .ticket-table-container {
-  @apply glass rounded-[32px] border border-white shadow-2xl overflow-hidden;
+  @apply glass-panel rounded-[2rem] overflow-hidden transition-all duration-300;
 }
 
 .table-row {
-  @apply grid grid-cols-12 px-6 py-4 border-b border-slate-100 hover:bg-slate-50/80 transition-all duration-200 items-center cursor-pointer;
+  @apply grid grid-cols-12 px-6 py-4 border-b border-slate-100 hover:bg-white/80 transition-all duration-200 items-center cursor-pointer;
 }
 
 .status-badge {
-  @apply text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm;
+  @apply text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm border border-transparent transition-all;
 }
 
 /* Buttons */
 .btn-primary {
-  @apply bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold tracking-tight transition-all duration-300 hover:bg-slate-800 hover:shadow-xl active:scale-95 flex items-center gap-2;
+  @apply bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold tracking-tight transition-all duration-300 hover:bg-slate-800 hover:shadow-xl active:scale-95 flex items-center gap-2 justify-center;
 }
 
 .btn-accent {
   background: var(--accent-gradient);
-  @apply text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all active:scale-95 flex items-center gap-2;
+  @apply text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 hover:-translate-y-1 active:scale-95 flex items-center gap-2 justify-center;
+}
+
+.btn-outline {
+  @apply bg-transparent text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-2xl font-bold transition-all duration-300 hover:border-slate-900 hover:text-slate-900 active:scale-95 flex items-center gap-2 justify-center;
 }
 
 /* Sidebar Prediction Panel */
 .prediction-panel {
-  @apply h-full p-6 flex flex-col gap-6 overflow-y-auto border-l border-slate-200;
-  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  @apply h-full p-6 flex flex-col gap-6 overflow-y-auto border-l border-slate-200/50 glass;
+}
+
+/* Inputs */
+.input-premium {
+  @apply w-full px-4 py-3 bg-white/50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all duration-200 backdrop-blur-sm;
 }
 
 /* Custom Scrollbar */
@@ -111,5 +161,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full hover:bg-slate-400;
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }

@@ -109,7 +109,7 @@ const AgencyAnalytics = () => {
                 {/* Charts Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Prediction Activity Line Chart */}
-                    <div className="glass rounded-[32px] p-8 shadow-2xl">
+                    <div className="glass-panel rounded-[32px] p-8 shadow-2xl">
                         <div className="mb-6">
                             <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-1">Prediction Activity</h3>
                             <p className="text-[10px] text-slate-500 font-medium">Daily AI prediction volume (Last 7 days)</p>
@@ -159,7 +159,7 @@ const AgencyAnalytics = () => {
                     </div>
 
                     {/* Category Distribution Pie Chart */}
-                    <div className="glass rounded-[32px] p-8 shadow-2xl">
+                    <div className="glass-panel rounded-[32px] p-8 shadow-2xl">
                         <div className="mb-6">
                             <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-1">Category Distribution</h3>
                             <p className="text-[10px] text-slate-500 font-medium">Ticket breakdown by priority/category</p>
@@ -231,7 +231,7 @@ const AgencyAnalytics = () => {
 
 // KPI Card Component
 const KpiCard = ({ label, value, sub, icon: Icon, color }) => (
-    <div className="glass p-6 rounded-[24px] border border-white shadow-xl hover:shadow-2xl transition-shadow">
+    <div className="glass-panel p-6 rounded-[24px] border border-white shadow-xl hover:shadow-2xl transition-shadow">
         <div className={`mb-3 ${color}`}>
             <Icon size={24} />
         </div>

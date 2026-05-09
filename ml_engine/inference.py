@@ -126,6 +126,21 @@ class TicketModelHandler:
             except Exception as e:
                 print(f"Team/Priority prediction error: {e}")
 
+        # Smart Overrides: Ensure strict categorization using keyword heuristics
+        desc_lower = description.lower()
+        financial_keywords = ["money", "refund", "payment", "billing", "invoice", "charge", "debited", "credited", "deducted", "cancellation", "overcharge"]
+        tech_keywords = ["software", "bug", "network", "system", "slow", "login", "display", "compatibility", "data loss", "access", "hardware", "platform", "breach", "wi-fi", "mesh", "connectivity", "performance", "technical", "battery", "peripheral"]
+        product_keywords = ["product", "marketing", "strategies", "solutions", "sales", "inquiry", "upgrade", "subscription", "delivery"]
+
+        if any(kw in desc_lower for kw in financial_keywords):
+            team = "Financial Operations"
+        elif any(kw in desc_lower for kw in tech_keywords):
+            team = "Technical Engineering"
+        elif any(kw in desc_lower for kw in product_keywords):
+            team = "Product & Sales Support"
+        else:
+            team = "General Experience"
+
         # ETA prediction
         eta = "Unknown"
         if self.ttr_model and self.ttr_le:

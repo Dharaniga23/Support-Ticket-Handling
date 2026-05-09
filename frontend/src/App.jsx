@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import TicketForm from './components/TicketForm';
 import PredictionResult from './components/PredictionResult';
 import Dashboard from './components/Dashboard';
 import ReportingPage from './components/ReportingPage';
 import DataTableView from './components/DataTableView';
+import LandingPage from './components/LandingPage';
+import Login from './components/Login';
 import { predictTicket, updateTicket } from './services/api';
 import { ArrowLeft, Wifi } from 'lucide-react';
 
@@ -44,7 +46,7 @@ const TicketDetail = () => {
     setIsLoading(true);
     try {
       await updateTicket(id, { status: "Solved", description: text });
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       alert("❌ Critical System Error: Unable to persist state.");
@@ -56,6 +58,7 @@ const TicketDetail = () => {
   return (
     <Layout rightPanel={
       <PredictionResult
+        id={id}
         result={currentResult}
         onApply={(action) => setAppliedAction(action)}
       />
@@ -64,7 +67,7 @@ const TicketDetail = () => {
         <div className="max-w-3xl mx-auto">
           <div className="mb-8 flex justify-between items-center">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/dashboard')}
               className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-indigo-600 flex items-center gap-2 transition-colors"
             >
               <ArrowLeft size={14} /> Global Stream
@@ -101,10 +104,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DashboardView />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/ticket/:id" element={<TicketDetail />} />
         <Route path="/reporting" element={<ReportingPage />} />
         <Route path="/data" element={<DataTableView />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );

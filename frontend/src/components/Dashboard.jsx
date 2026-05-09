@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Filter, MoreHorizontal, Loader2, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
+import { Search, Filter, MoreHorizontal, Loader2, TrendingUp, ShieldCheck, Zap, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { getTickets } from '../services/api';
+import { getTickets, syncEmails } from '../services/api';
 
 const Dashboard = ({ onSelectTicket }) => {
     const [tickets, setTickets] = useState([]);
     const [filteredTickets, setFilteredTickets] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSyncing, setIsSyncing] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [filters, setFilters] = useState({
         team: 'all',
@@ -26,6 +27,24 @@ const Dashboard = ({ onSelectTicket }) => {
         };
         loadData();
     }, []);
+
+    const handleSync = async () => {
+        setIsSyncing(true);
+        try {
+            await syncEmails();
+            // Wait briefly for the backend to fetch and process emails
+            setTimeout(async () => {
+                const data = await getTickets();
+                const sorted = (data || []).sort((a, b) => b.id - a.id);
+                setTickets(sorted);
+                setFilteredTickets(sorted);
+                setIsSyncing(false);
+            }, 3000);
+        } catch (err) {
+            console.error("Failed to sync emails", err);
+            setIsSyncing(false);
+        }
+    };
 
     useEffect(() => {
         let filtered = tickets;
@@ -70,6 +89,14 @@ const Dashboard = ({ onSelectTicket }) => {
                     <h1 className="text-4xl font-black text-slate-900 tracking-tight">The Agency Dashboard</h1>
                 </div>
                 <div className="flex gap-3">
+                    <button 
+                        className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition-colors border border-indigo-200 shadow-sm"
+                        onClick={handleSync}
+                        disabled={isSyncing}
+                    >
+                        {isSyncing ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+                        {isSyncing ? 'Syncing...' : 'Sync Live Emails'}
+                    </button>
                     <button className="btn-primary" onClick={() => navigate('/reporting')}>
                         <TrendingUp size={16} /> Reports
                     </button>
@@ -137,10 +164,10 @@ const Dashboard = ({ onSelectTicket }) => {
                         className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
                     >
                         <option value="all">All Teams</option>
-                        <option value="Billing and Payments">Billing</option>
-                        <option value="Technical Support">Technical</option>
-                        <option value="Product Support">Product</option>
-                        <option value="General Experience">General</option>
+                        <option value="Financial Operations">Financial Operations</option>
+                        <option value="Technical Engineering">Technical Engineering</option>
+                        <option value="Product & Sales Support">Product & Sales Support</option>
+                        <option value="General Experience">General Experience</option>
                     </select>
 
                     {/* Priority Filter */}

@@ -1,7 +1,12 @@
 import React from 'react';
-import { Zap, Clock, Check, Shield, Cpu, Activity } from 'lucide-react';
+import { Zap, Clock, Check, Shield, Cpu, Activity, Send, Loader2 } from 'lucide-react';
+import { replyToTicket } from '../services/api';
+import { useState } from 'react';
 
-const PredictionResult = ({ result, onApply }) => {
+const PredictionResult = ({ id, result, onApply }) => {
+    const [isSending, setIsSending] = useState(false);
+    const [sendSuccess, setSendSuccess] = useState(false);
+
     if (!result) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-12 text-center">
@@ -100,6 +105,40 @@ const PredictionResult = ({ result, onApply }) => {
                         className="btn-accent w-full mt-6 justify-center"
                     >
                         <Zap size={16} /> Apply Suggested Macro
+                    </button>
+
+                    {/* NEW: Send AI Reply Button */}
+                    <button
+                        onClick={async () => {
+                            if (!id) return;
+                            setIsSending(true);
+                            try {
+                                await replyToTicket(id);
+                                setSendSuccess(true);
+                                setTimeout(() => setSendSuccess(false), 3000);
+                            } catch (err) {
+                                alert("Failed to send email. Check backend logs.");
+                            } finally {
+                                setIsSending(false);
+                            }
+                        }}
+                        disabled={!id || isSending}
+                        className={`w-full mt-3 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${sendSuccess
+                                ? 'bg-emerald-500 text-white'
+                                : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+                            }`}
+                    >
+                        {isSending ? (
+                            <Loader2 size={16} className="animate-spin" />
+                        ) : sendSuccess ? (
+                            <>
+                                <Check size={16} /> Solution Transmitted
+                            </>
+                        ) : (
+                            <>
+                                <Send size={16} /> Send AI Solution to Customer
+                            </>
+                        )}
                     </button>
                 </section>
             </div>

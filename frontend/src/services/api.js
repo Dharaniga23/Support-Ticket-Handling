@@ -81,4 +81,28 @@ export const getAnalyticsSummary = async () => {
     }
 };
 
+// ============================================
+// Email Integration API Functions
+// ============================================
+
+export const syncEmails = async () => {
+    try {
+        const response = await api.post('/sync-emails');
+        return response.data;
+    } catch (error) {
+        console.error("Email Sync API Error:", error);
+        throw error;
+    }
+};
+
+export const replyToTicket = async (id) => {
+    try {
+        const response = await api.post(`/tickets/${id}/reply`);
+        return response.data;
+    } catch (error) {
+        console.error("Email Reply API Error:", error);
+        throw error;
+    }
+};
+
 export default api;

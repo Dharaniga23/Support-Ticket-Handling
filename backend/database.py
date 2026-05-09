@@ -23,6 +23,7 @@ def init_db():
             status TEXT,
             description TEXT,
             resolution TEXT,
+            suggested_action TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -51,6 +52,18 @@ def update_ticket_status(ticket_id: int, status: str, resolution: Optional[str] 
         )
     conn.commit()
     conn.close()
+
+def create_ticket(subject: str, requester: str, support_team: str, priority: str, status: str, description: str, suggested_action: str) -> int:
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO tickets (subject, requester, support_team, priority, status, description, suggested_action)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (subject, requester, support_team, priority, status, description, suggested_action))
+    ticket_id = c.lastrowid
+    conn.commit()
+    conn.close()
+    return ticket_id
 
 if __name__ == '__main__':
     init_db()
