@@ -7,10 +7,16 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: 'var(--primary)',
-                secondary: 'var(--secondary)',
-                accent: 'var(--accent)',
-            }
+                brand: {
+                    peach: '#E0A28A',
+                    sage: '#CDD1B7',
+                    mint: '#BDEBD5',
+                    navy: '#373691',
+                },
+                slate: {
+                    850: '#151e2e',
+                }
+            },
         },
     },
     plugins: [],

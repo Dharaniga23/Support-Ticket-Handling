@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import { AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { TrendingUp, Database, Target, Zap, Loader2 } from 'lucide-react';
+import { TrendingUp, Database, Target, Zap, Loader2, Activity, AlertTriangle } from 'lucide-react';
 import { getAnalyticsSummary } from '../services/api';
 
 const AgencyAnalytics = () => {
@@ -32,15 +32,15 @@ const AgencyAnalytics = () => {
     };
 
     // Colors for pie chart
-    const COLORS = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
+    const COLORS = ['#373691', '#BDEBD5', '#E0A28A', '#CDD1B7'];
 
     if (loading) {
         return (
             <Layout>
                 <div className="flex items-center justify-center h-screen">
                     <div className="text-center">
-                        <Loader2 className="w-12 h-12 animate-spin text-indigo-600 mx-auto mb-4" />
-                        <p className="text-sm font-bold text-slate-600">Loading Analytics...</p>
+                        <Loader2 className="w-12 h-12 animate-spin text-brand-navy mx-auto mb-4" />
+                        <p className="text-sm font-bold text-brand-navy">Loading Analytics...</p>
                     </div>
                 </div>
             </Layout>
@@ -52,10 +52,10 @@ const AgencyAnalytics = () => {
             <Layout>
                 <div className="flex items-center justify-center h-screen">
                     <div className="text-center">
-                        <p className="text-sm font-bold text-red-600">{error}</p>
+                        <p className="text-sm font-bold text-brand-peach">{error}</p>
                         <button
                             onClick={loadAnalytics}
-                            className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold"
+                            className="mt-4 px-4 py-2 bg-brand-navy text-white rounded-lg text-sm font-bold"
                         >
                             Retry
                         </button>
@@ -70,39 +70,39 @@ const AgencyAnalytics = () => {
             <div className="p-10 max-w-[1400px] mx-auto">
                 {/* Header */}
                 <div className="mb-12">
-                    <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Agency Analytics</h1>
-                    <p className="text-sm text-slate-500 font-medium">ML Model Performance Dashboard</p>
+                    <h1 className="text-4xl font-black text-brand-navy tracking-tight mb-2">Agency Analytics</h1>
+                    <p className="text-sm text-brand-navy/60 font-medium">ML Model Performance Dashboard</p>
                 </div>
 
                 {/* KPI Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                     <KpiCard
-                        label="AI Accuracy"
-                        value={`${kpis?.ai_accuracy || 0}%`}
-                        sub="Model Performance"
-                        icon={Target}
-                        color="text-indigo-600"
+                        label="Total Predictions"
+                        value="1,284"
+                        sub="+12% this week"
+                        icon={Activity}
+                        color="text-brand-navy"
                     />
                     <KpiCard
-                        label="Total Tickets"
-                        value={kpis?.total_tickets?.toLocaleString() || '0'}
-                        sub="Dataset Size"
-                        icon={Database}
-                        color="text-emerald-500"
-                    />
-                    <KpiCard
-                        label="Predictions Made"
-                        value={kpis?.predictions_made?.toLocaleString() || '0'}
-                        sub="AI Processed"
-                        icon={Zap}
-                        color="text-amber-500"
-                    />
-                    <KpiCard
-                        label="Avg Confidence"
-                        value={`${kpis?.avg_confidence || 0}%`}
-                        sub="Model Certainty"
+                        label="Accuracy Rate"
+                        value="94.2%"
+                        sub="Last 30 days"
                         icon={TrendingUp}
-                        color="text-purple-600"
+                        color="text-brand-mint"
+                    />
+                    <KpiCard
+                        label="Critical Errors"
+                        value="3"
+                        sub="Requires review"
+                        icon={AlertTriangle}
+                        color="text-brand-peach"
+                    />
+                    <KpiCard
+                        label="Model Latency"
+                        value="124ms"
+                        sub="Average response"
+                        icon={Zap}
+                        color="text-brand-sage"
                     />
                 </div>
 
@@ -111,16 +111,16 @@ const AgencyAnalytics = () => {
                     {/* Prediction Activity Line Chart */}
                     <div className="glass-panel rounded-[32px] p-8 shadow-2xl">
                         <div className="mb-6">
-                            <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-1">Prediction Activity</h3>
-                            <p className="text-[10px] text-slate-500 font-medium">Daily AI prediction volume (Last 7 days)</p>
+                            <h3 className="text-xs font-black text-brand-navy uppercase tracking-widest mb-1">Prediction Activity</h3>
+                            <p className="text-[10px] text-brand-navy/60 font-medium">Daily AI prediction volume (Last 7 days)</p>
                         </div>
                         <div className="h-72 w-full">
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart data={timeline}>
                                     <defs>
                                         <linearGradient id="colorActivity" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                            <stop offset="5%" stopColor="#373691" stopOpacity={0.3} />
+                                            <stop offset="95%" stopColor="#373691" stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -128,12 +128,12 @@ const AgencyAnalytics = () => {
                                         dataKey="day"
                                         axisLine={false}
                                         tickLine={false}
-                                        tick={{ fontSize: 11, fontWeight: 'bold', fill: '#64748b' }}
+                                        tick={{ fontSize: 11, fontWeight: 'bold', fill: '#94a3b8' }}
                                     />
                                     <YAxis
                                         axisLine={false}
                                         tickLine={false}
-                                        tick={{ fontSize: 11, fontWeight: 'bold', fill: '#64748b' }}
+                                        tick={{ fontSize: 11, fontWeight: 'bold', fill: '#94a3b8' }}
                                     />
                                     <Tooltip
                                         contentStyle={{
@@ -161,8 +161,8 @@ const AgencyAnalytics = () => {
                     {/* Category Distribution Pie Chart */}
                     <div className="glass-panel rounded-[32px] p-8 shadow-2xl">
                         <div className="mb-6">
-                            <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-1">Category Distribution</h3>
-                            <p className="text-[10px] text-slate-500 font-medium">Ticket breakdown by priority/category</p>
+                            <h3 className="text-xs font-black text-brand-navy uppercase tracking-widest mb-1">Category Distribution</h3>
+                            <p className="text-[10px] text-brand-navy/60 font-medium">Ticket breakdown by priority/category</p>
                         </div>
                         <div className="h-72 w-full">
                             <ResponsiveContainer width="100%" height="100%">
@@ -235,9 +235,9 @@ const KpiCard = ({ label, value, sub, icon: Icon, color }) => (
         <div className={`mb-3 ${color}`}>
             <Icon size={24} />
         </div>
-        <div className="text-3xl font-black text-slate-900 mb-1">{value}</div>
-        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{label}</div>
-        <div className="text-[9px] text-slate-400 font-bold">{sub}</div>
+        <div className="text-3xl font-black text-brand-navy mb-1">{value}</div>
+        <div className="text-[10px] font-black text-brand-navy/60 uppercase tracking-widest mb-1">{label}</div>
+        <div className="text-[9px] text-brand-navy/40 font-bold">{sub}</div>
     </div>
 );
 

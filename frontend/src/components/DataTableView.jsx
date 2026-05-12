@@ -12,7 +12,7 @@ const DataTableView = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('http://127.0.0.1:8000/api/data');
+                const response = await axios.get('http://127.0.0.1:8001/api/data');
                 setData(response.data);
                 setError(null);
             } catch (err) {
@@ -35,17 +35,17 @@ const DataTableView = () => {
                             <Database size={28} />
                         </div>
                         <div>
-                            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Source Data Explorer</h2>
-                            <p className="text-xs text-slate-500 font-bold uppercase tracking-widest flex items-center gap-2">
-                                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                            <h2 className="text-3xl font-black text-brand-navy tracking-tight">Source Data Explorer</h2>
+                            <p className="text-xs text-brand-navy/60 font-bold uppercase tracking-widest flex items-center gap-2">
+                                <span className="w-2 h-2 bg-brand-mint rounded-full animate-pulse"></span>
                                 Connected to SQLite: data/db/tickets.db
                             </p>
                         </div>
                     </div>
                     <div className="flex gap-3">
-                        <div className="px-4 py-2 bg-slate-100 rounded-xl flex items-center gap-3 border border-slate-200">
-                            <HardDrive size={16} className="text-slate-400" />
-                            <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{data.length} Records Ingested</span>
+                        <div className="px-4 py-2 bg-brand-sage/20 rounded-xl flex items-center gap-3 border border-brand-sage/40">
+                            <HardDrive size={16} className="text-brand-navy/60" />
+                            <span className="text-[10px] font-black text-brand-navy/80 uppercase tracking-widest">{data.length} Records Ingested</span>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ const DataTableView = () => {
                         <h3 className="text-xs font-black text-slate-400 uppercase tracking-[4px]">Synchronizing Neural Source...</h3>
                     </div>
                 ) : error ? (
-                    <div className="bg-rose-50 border border-rose-100 p-8 rounded-[32px] flex items-center gap-6 text-rose-600 shadow-xl">
+                    <div className="bg-brand-peach/10 border border-brand-peach/30 p-8 rounded-[32px] flex items-center gap-6 text-brand-peach shadow-xl">
                         <AlertCircle size={48} />
                         <div>
                             <p className="text-lg font-black tracking-tight">System Connection Failure</p>
@@ -78,14 +78,14 @@ const DataTableView = () => {
                                 </thead>
                                 <tbody>
                                     {data.map((item) => (
-                                        <tr key={item.id} className="border-b border-slate-50 hover:bg-slate-50/80 transition-all group">
-                                            <td className="px-8 py-6 text-xs font-mono text-slate-300 group-hover:text-indigo-600 transition-colors">#{item.id}</td>
+                                        <tr key={item.id} className="border-b border-brand-sage/20 hover:bg-brand-sage/10 transition-all group">
+                                            <td className="px-8 py-6 text-xs font-mono text-brand-navy/60 group-hover:text-brand-navy transition-colors">#{item.id}</td>
                                             <td className="px-8 py-6">
-                                                <div className="text-sm font-bold text-slate-800 tracking-tight group-hover:text-indigo-600 transition-colors">{item.subject}</div>
+                                                <div className="text-sm font-bold text-brand-navy tracking-tight group-hover:text-brand-navy/80 transition-colors">{item.subject}</div>
                                             </td>
                                             <td className="px-8 py-6 text-xs font-black text-slate-500 uppercase tracking-tighter">{item.requester}</td>
                                             <td className="px-8 py-6">
-                                                <span className={`text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-sm ${item.status?.toLowerCase() === 'solved' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+                                                <span className={`text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-sm ${item.status?.toLowerCase() === 'solved' ? 'bg-brand-mint text-brand-navy border-transparent' : 'bg-brand-peach text-brand-navy border-transparent'
                                                     }`}>
                                                     {item.status}
                                                 </span>

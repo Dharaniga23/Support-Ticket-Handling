@@ -14,8 +14,9 @@ const Layout = ({ children, rightPanel }) => {
                 className={`nav-item group relative ${isActive ? 'active' : ''}`}
                 title={label}
             >
-                <Icon size={20} />
-                <div className="absolute left-16 bg-slate-800 border border-slate-700 text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
+                {isActive && <div className="w-1.5 h-6 bg-brand-navy rounded-r-full absolute left-0" />}
+                <Icon size={20} className={isActive ? "text-white" : "text-slate-400 group-hover:text-brand-navy transition-colors"} />
+                <div className="absolute left-16 bg-brand-navy border border-slate-700 text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
                     {label}
                 </div>
             </div>
@@ -23,10 +24,10 @@ const Layout = ({ children, rightPanel }) => {
     };
 
     return (
-        <div className="app-container font-sans bg-transparent">
+        <div className={`app-container font-sans bg-transparent ${rightPanel ? 'has-right-panel' : ''}`}>
             {/* 1. Left Global Nav */}
             <aside className="main-nav">
-                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-indigo-500/40 mb-8 mt-2 cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate('/dashboard')}>
+                <div className="w-12 h-12 bg-gradient-to-br from-brand-navy to-brand-blue rounded-[1.25rem] flex items-center justify-center text-white shadow-lg shadow-brand-navy/40 mb-8 mt-2 cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate('/dashboard')}>
                     <BrainCircuit size={24} />
                 </div>
 
@@ -36,23 +37,7 @@ const Layout = ({ children, rightPanel }) => {
                     <NavItem icon={Database} path="/data" label="Data Grid" />
                 </div>
 
-                <div className="flex flex-col items-center gap-3 mb-6 w-full px-4">
-                    <div className="w-full border-t border-slate-800 mb-2"></div>
-                    <NavItem icon={Settings} path="#" label="Settings" />
-                    
-                    {/* User Profile */}
-                    <div className="mt-2 w-10 h-10 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-slate-400 cursor-pointer hover:border-indigo-500 hover:text-indigo-400 transition-all shadow-lg" title="Profile">
-                        <User size={18} />
-                    </div>
 
-                    <button
-                        onClick={() => navigate('/login')}
-                        className="mt-2 w-10 h-10 bg-slate-800/50 rounded-2xl flex items-center justify-center text-rose-400 hover:bg-rose-500 hover:text-white transition-all shadow-lg border border-slate-700/50"
-                        title="Disconnect"
-                    >
-                        <LogOut size={16} />
-                    </button>
-                </div>
             </aside>
 
             {/* 2. Main Content */}

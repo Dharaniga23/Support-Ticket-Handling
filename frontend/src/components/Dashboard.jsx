@@ -86,11 +86,11 @@ const Dashboard = ({ onSelectTicket }) => {
                         <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
                         <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Live Monitoring</span>
                     </div>
-                    <h1 className="text-4xl font-black text-slate-900 tracking-tight">The Agency Dashboard</h1>
+                    <h1 className="text-4xl font-black text-brand-navy tracking-tight">The Agency Dashboard</h1>
                 </div>
                 <div className="flex gap-3">
                     <button 
-                        className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition-colors border border-indigo-200 shadow-sm"
+                        className="flex items-center gap-2 px-4 py-2 bg-brand-navy/10 hover:bg-brand-navy/20 text-brand-navy rounded-xl text-xs font-bold transition-colors border border-brand-navy/20 shadow-sm"
                         onClick={handleSync}
                         disabled={isSyncing}
                     >
@@ -110,35 +110,35 @@ const Dashboard = ({ onSelectTicket }) => {
                     value={tickets.length}
                     sub="Real-time count"
                     icon={TrendingUp}
-                    color="text-indigo-600"
+                    color="text-brand-navy"
                 />
                 <KpiCard
                     label="Critical Issues"
                     value={tickets.filter(t => t.priority?.toLowerCase() === 'high').length}
                     sub="Requires attention"
                     icon={ShieldCheck}
-                    color="text-rose-600"
+                    color="text-brand-peach"
                 />
                 <KpiCard
                     label="Autopilot Rate"
                     value="64%"
                     sub="AI Dispatching"
                     icon={Zap}
-                    color="text-amber-500"
+                    color="text-brand-sage"
                 />
                 <KpiCard
                     label="Agent Happiness"
                     value="98%"
                     sub="Internal CSAT"
                     icon={ShieldCheck}
-                    color="text-emerald-500"
+                    color="text-brand-mint"
                 />
             </div>
 
             {/* List Header with Filters */}
             <div className="mb-6">
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Incoming Support Stream</h3>
+                    <h3 className="text-sm font-black text-brand-navy uppercase tracking-widest">Incoming Support Stream</h3>
                     <div className="text-xs text-slate-500 font-medium">
                         Showing {filteredTickets.length} of {tickets.length} tickets
                     </div>
@@ -151,7 +151,7 @@ const Dashboard = ({ onSelectTicket }) => {
                         <input
                             type="text"
                             placeholder="Search tickets..."
-                            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500/20"
+                            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs text-brand-navy focus:ring-2 focus:ring-brand-navy/20"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -161,7 +161,7 @@ const Dashboard = ({ onSelectTicket }) => {
                     <select
                         value={filters.team}
                         onChange={(e) => setFilters({ ...filters, team: e.target.value })}
-                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
+                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-brand-navy/20 cursor-pointer"
                     >
                         <option value="all">All Teams</option>
                         <option value="Financial Operations">Financial Operations</option>
@@ -174,7 +174,7 @@ const Dashboard = ({ onSelectTicket }) => {
                     <select
                         value={filters.priority}
                         onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
-                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
+                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-brand-navy/20 cursor-pointer"
                     >
                         <option value="all">All Priorities</option>
                         <option value="high">High</option>
@@ -186,7 +186,7 @@ const Dashboard = ({ onSelectTicket }) => {
                     <select
                         value={filters.status}
                         onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
+                        className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-brand-navy/20 cursor-pointer"
                     >
                         <option value="all">All Status</option>
                         <option value="open">Open</option>
@@ -199,7 +199,7 @@ const Dashboard = ({ onSelectTicket }) => {
             {/* Data Table */}
             <div className="ticket-table-container">
                 {/* Header */}
-                <div className="grid grid-cols-12 px-8 py-5 bg-slate-900 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-800">
+                <div className="grid grid-cols-12 px-8 py-5 bg-brand-sage/10 text-[10px] font-black text-brand-navy/70 uppercase tracking-widest border-b border-brand-sage/20">
                     <div className="col-span-1">ID</div>
                     <div className="col-span-2">Status</div>
                     <div className="col-span-5">Subject</div>
@@ -210,8 +210,8 @@ const Dashboard = ({ onSelectTicket }) => {
                 {/* Rows */}
                 {isLoading ? (
                     <div className="p-20 flex flex-col items-center justify-center gap-4 bg-white">
-                        <Loader2 className="animate-spin text-indigo-500" size={40} />
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Connecting to Neural Layer...</span>
+                        <Loader2 className="animate-spin text-brand-navy" size={40} />
+                        <span className="text-[10px] font-black text-brand-navy/50 uppercase tracking-widest">Connecting to Neural Layer...</span>
                     </div>
                 ) : (
                     filteredTickets.map(t => (
@@ -222,17 +222,17 @@ const Dashboard = ({ onSelectTicket }) => {
                         >
                             <div className="col-span-1 text-xs font-mono text-slate-400 tracking-tighter group-hover:text-indigo-600 transition-colors">#{t.id}</div>
                             <div className="col-span-2">
-                                <span className={`status-badge ${t.status?.toLowerCase() === 'solved' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+                                <span className={`status-badge ${t.status?.toLowerCase() === 'solved' ? 'bg-brand-mint text-brand-navy border-transparent' : 'bg-brand-peach text-brand-navy border-transparent'
                                     }`}>
                                     {t.status}
                                 </span>
                             </div>
-                            <div className="col-span-5 text-sm font-bold text-slate-700 truncate pr-8 group-hover:text-slate-900 transition-colors">
+                            <div className="col-span-5 text-sm font-bold text-brand-navy truncate pr-8 group-hover:text-brand-navy/80 transition-colors">
                                 {t.subject}
                             </div>
                             <div className="col-span-2 text-xs font-semibold text-slate-500">{t.requester}</div>
                             <div className="col-span-2 text-right">
-                                <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded-md text-[10px] font-bold group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                                <span className="bg-brand-sage/20 text-brand-navy px-2 py-1 rounded-md text-[10px] font-bold group-hover:bg-brand-navy/10 group-hover:text-brand-navy transition-colors">
                                     {t.support_team}
                                 </span>
                             </div>
@@ -242,8 +242,8 @@ const Dashboard = ({ onSelectTicket }) => {
                 {!isLoading && filteredTickets.length === 0 && (
                     <div className="p-20 text-center bg-white rounded-b-3xl">
                         <div className="text-slate-200 mb-4 flex justify-center"><Search size={48} /></div>
-                        <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">No matching tickets found</h3>
-                        <p className="text-[10px] text-slate-400 mt-2 font-medium">Try adjusting your search or filters.</p>
+                        <h3 className="text-sm font-black text-brand-navy/70 uppercase tracking-widest">No matching tickets found</h3>
+                        <p className="text-[10px] text-brand-navy/50 mt-2 font-medium">Try adjusting your search or filters.</p>
                     </div>
                 )}
             </div>
@@ -259,8 +259,8 @@ const KpiCard = ({ label, value, sub, icon: Icon, color }) => (
             </div>
             <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{sub}</div>
         </div>
-        <div className="text-3xl font-black text-slate-900 mb-1">{value}</div>
-        <div className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">{label}</div>
+        <div className="text-3xl font-black text-brand-navy mb-1">{value}</div>
+        <div className="text-[10px] font-extrabold text-brand-navy/60 uppercase tracking-widest">{label}</div>
     </div>
 );
 

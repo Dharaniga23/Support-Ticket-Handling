@@ -100,8 +100,16 @@ class TicketModelHandler:
                 "routing_status": "Escalate"
             }
 
-        # Encode the description
-        embedding = self.sbert.encode([description])[0]
+        # Clean description for AI processing (remove E-Commerce email boilerplate)
+        clean_desc = description
+        if "ORIGINAL USER INPUT" in clean_desc:
+            import re
+            match = re.search(r'ORIGINAL USER INPUT(.*?)(Reply to this email|$)', clean_desc, re.IGNORECASE | re.DOTALL)
+            if match:
+                clean_desc = match.group(1).strip()
+
+        # Encode the clean description
+        embedding = self.sbert.encode([clean_desc])[0]
 
         # Category prediction
         category = "Unknown"
@@ -127,7 +135,7 @@ class TicketModelHandler:
                 print(f"Team/Priority prediction error: {e}")
 
         # Smart Overrides: Ensure strict categorization using keyword heuristics
-        desc_lower = description.lower()
+        desc_lower = clean_desc.lower()
         financial_keywords = ["money", "refund", "payment", "billing", "invoice", "charge", "debited", "credited", "deducted", "cancellation", "overcharge"]
         tech_keywords = ["software", "bug", "network", "system", "slow", "login", "display", "compatibility", "data loss", "access", "hardware", "platform", "breach", "wi-fi", "mesh", "connectivity", "performance", "technical", "battery", "peripheral"]
         product_keywords = ["product", "marketing", "strategies", "solutions", "sales", "inquiry", "upgrade", "subscription", "delivery"]
