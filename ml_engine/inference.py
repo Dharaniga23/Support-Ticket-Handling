@@ -176,7 +176,32 @@ class TicketModelHandler:
         # Routing status based on confidence
         routing_status = "Auto" if confidence > 0.8 else "Review" if confidence > 0.5 else "Escalate"
 
-        friendly_action = f"Hello! I've analyzed this ticket. Based on our knowledge base, here is the recommended fix: {suggested_action}. I hope this helps!"
+        import random
+        greetings = ["Hello there,", "Hi,", "Greetings,", "Dear Customer,"]
+        intros = [
+            "Thank you for reaching out to our support system. I have carefully reviewed your request, and based on our expert knowledge base, I have found a resolution for your issue.",
+            "Thanks for contacting our support system. I've looked into your ticket, and here is the recommended solution to get this sorted out for you.",
+            "We appreciate you getting in touch with our support system. After analyzing your inquiry, I've located the following resolution from our support database."
+        ]
+        action_prefixes = ["Recommended Action:", "Here is what you need to do:", "Proposed Solution:"]
+        closings = [
+            "If you need any further assistance, please don't hesitate to reply to this email. We are always here to help!",
+            "Should you have any more questions, just let us know by replying to this message.",
+            "If there's anything else we can do for you, please feel free to reach out again."
+        ]
+        sign_offs = [
+            "Best regards,\nAI Support Team",
+            "Warmly,\nCustomer Support",
+            "Sincerely,\nThe Support Team"
+        ]
+
+        friendly_action = (
+            f"{random.choice(greetings)}\n\n"
+            f"{random.choice(intros)}\n\n"
+            f"{random.choice(action_prefixes)} {suggested_action}\n\n"
+            f"{random.choice(closings)}\n\n"
+            f"{random.choice(sign_offs)}"
+        )
         return {
             "category": category,
             "confidence": float(confidence),
